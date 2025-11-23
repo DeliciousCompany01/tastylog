@@ -7,9 +7,9 @@ on:
     paths:
       - 10_infra/**
       - .github/workflows
-  workflow-dispatch:
+  workflow_dispatch:
 
-permission:
+permissions:
   id-token: write
   contents: read
 
@@ -18,5 +18,4 @@ jobs:
     name: "Preview"
     runs-on: ubuntu-latest
     steps:
-      - run: |
-        echo "Hello World"
+      - run: echo "Hello World"
