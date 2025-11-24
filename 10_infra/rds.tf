@@ -49,8 +49,8 @@ resource "aws_db_subnet_group" "mysql_standalone_subnetgroup" {
 # RDS instance
 # ---------------------------------------------
 resource "aws_db_instance" "mysql_standalone" {
-  engine         = "mysql"
-#  engine_version = "8.0.28"
+  engine = "mysql"
+  #  engine_version = "8.0.28"
 
   identifier = "${var.project}-${var.environment}-mysql-standalone"
 
