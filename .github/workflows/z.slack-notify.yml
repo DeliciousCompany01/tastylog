@@ -1,0 +1,38 @@
+name: Slack Notification Workflow
+
+on:
+  workflow_dispatch: {} # 手動実行を可能にする
+
+jobs:
+  notify_slack:
+    name: Send Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification to Slack
+        # GitHub Marketplace のアクションを使用
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C09U35W9Z4J'
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Message Header",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Hellow World :ghost:",
+                    "emoji": true
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
