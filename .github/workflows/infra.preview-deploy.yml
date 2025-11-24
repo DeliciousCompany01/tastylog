@@ -17,7 +17,7 @@ env:
   IF_VERSION: 1.2.8
   AWS_REGION: ap-northeast-1
   TF_PROJECT: ft-less
-  TF_ENVIROMENT : environment 
+  TF_ENVIROMENT : dev
 
 defaults:
   run:
