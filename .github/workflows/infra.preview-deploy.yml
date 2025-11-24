@@ -84,7 +84,6 @@ jobs:
                   "text": {
                     "type": "mrkdwn",
                     "text": "${{ github.server_url }}/${{ github.repository }}/actions/run/${{ github.run_id }}",
-                    "emoji": true
                   }
                 }
               ]
