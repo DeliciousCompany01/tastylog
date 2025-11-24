@@ -28,6 +28,8 @@ jobs:
   preview:
     name: "Preview"
     runs-on: ubuntu-latest
+    outputs: 
+      TF_PLAN_EXITCODE: ${{ steps.tf-plan.outputs.exitcode }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -51,6 +53,8 @@ jobs:
         run: |
           terraform validate -no-color
       - name: Terraform plan
+        continue-on-error: true
+        id: tf-plan
         run: |
           terraform plan \
           -var 'project=${{ env.TF_PROJECT }}' \
@@ -60,3 +64,30 @@ jobs:
           -input=false \
           -no-color \
           -detailed-exitcode
+      - name: Slack Notify
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C09U35W9Z4J'
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "Message Header",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ github.server_url }}/${{ github.repository }}/actions/run/${{ github.run_id }}",
+                    "emoji": true
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
