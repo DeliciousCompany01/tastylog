@@ -16,6 +16,8 @@ permissions:
 env:
   IF_VERSION: 1.2.8
   AWS_REGION: ap-northeast-1
+  TF_PROJECT: ft-less
+  TF_ENVIROMENT : environment 
 
 defaults:
   run:
@@ -51,8 +53,8 @@ jobs:
         run: terraform run \
           -var 'project=${{ env.TF_PROJECT }}' \
           -var 'environment=${{ env.TF_ENVIROMENT }}' \
-          -var 'username=${{ env.MYSQL_USERNAME }}' \
-          -var 'password=${{ env.MYSQL_PASSWORD }}' \
+          -var 'username=${{ secrets.MYSQL_USERNAME }}' \
+          -var 'password=${{ secrets.MYSQL_PASSWORD }}' \
           -input=false \
           -no-color \
           -detailed-exitcode
