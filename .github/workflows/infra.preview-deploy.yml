@@ -51,7 +51,7 @@ jobs:
           terraform validate -no-color
       - name: Terraform plan
         run: |
-          terraform run \
+          terraform plan \
           -var 'project=${{ env.TF_PROJECT }}' \
           -var 'environment=${{ env.TF_ENVIROMENT }}' \
           -var 'username=${{ secrets.MYSQL_USERNAME }}' \
