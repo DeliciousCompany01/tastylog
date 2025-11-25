@@ -64,6 +64,11 @@ jobs:
           -input=false \
           -no-color \
           -detailed-exitcode
+
+          # ↓↓↓ この追記が必須です ↓↓↓
+          EXIT_CODE=$?
+          echo "exitcode=$EXIT_CODE" >> $GITHUB_OUTPUT
+          # ↑↑↑ ここまで追記 ↑↑↑
       # 追加：デバッグ用ステップ
       - name: Debug TF_PLAN_EXITCODE output
         run: |
