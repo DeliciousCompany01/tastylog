@@ -64,6 +64,10 @@ jobs:
           -input=false \
           -no-color \
           -detailed-exitcode
+          # --- 追加 ---
+          # 直前のコマンドの終了コードを変数 'exitcode' としてステップの出力に設定
+          echo "exitcode=$?" >> $GITHUB_OUTPUT
+          # ------------
       - name: Slack Notify
         uses: slackapi/slack-github-action@v1.26.0
         with:
