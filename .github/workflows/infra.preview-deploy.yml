@@ -64,6 +64,10 @@ jobs:
           -input=false \
           -no-color \
           -detailed-exitcode
+      # 追加：デバッグ用ステップ
+      - name: Debug TF_PLAN_EXITCODE output
+        run: |
+          echo "Debug Output: ${{ steps.plan.outputs.exitcode }}"
       - name: Slack Notify
         uses: slackapi/slack-github-action@v1.26.0
         with:
