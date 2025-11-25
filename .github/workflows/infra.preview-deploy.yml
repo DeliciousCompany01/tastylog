@@ -65,10 +65,22 @@ jobs:
           -no-color \
           -detailed-exitcode
 
-          # ↓↓↓ この追記が必須です ↓↓↓
-          EXIT_CODE=$?
-          echo "exitcode=$EXIT_CODE" >> $GITHUB_OUTPUT
-          # ↑↑↑ ここまで追記 ↑↑↑
+          # 2. 直前の終了コードをシェル変数に格納
+          PLAN_EXIT_CODE=$?
+          echo "Debug (Shell Var): $PLAN_EXIT_CODE"
+
+          # 3. GitHub ActionsのOutputに設定
+          echo "exitcode=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
+          echo "Debug (GA Output written): $PLAN_EXIT_CODE"
+
+          # 4. ステップ自体は成功終了させる
+          exit 0 
+
+      # 追加：デバッグ用ステップ（ジョブの最後に追加）
+      - name: Debug TF_PLAN_EXITCODE output from previous step
+        run: |
+          # ここで ${{ steps.plan.outputs.exitcode }} がどう見えるか確認
+          echo "Debug (Read back from GA Output): ${{ steps.plan.outputs.exitcode }}"
       # 追加：デバッグ用ステップ
       - name: Debug TF_PLAN_EXITCODE output
         run: |
