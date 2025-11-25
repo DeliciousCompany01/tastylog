@@ -32,9 +32,9 @@ jobs:
       TF_PLAN_EXITCODE: ${{ steps.plan.outputs.exitcode }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v3
       - name: Setup terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
           terraform_wrapper: false
@@ -42,7 +42,7 @@ jobs:
         run: |
           terraform fmt -check
       - name: Configure AWS Credential
-        uses: aws-actions/configure-aws-credentials@v5.1.0
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: ${{ env.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_IAM_ROLE_ARN }}
@@ -64,27 +64,6 @@ jobs:
           -input=false \
           -no-color \
           -detailed-exitcode
-
-          # 2. 直前の終了コードをシェル変数に格納
-          PLAN_EXIT_CODE=$?
-          echo "Debug (Shell Var): $PLAN_EXIT_CODE"
-
-          # 3. GitHub ActionsのOutputに設定
-          echo "exitcode=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
-          echo "Debug (GA Output written): $PLAN_EXIT_CODE"
-
-          # 4. ステップ自体は成功終了させる
-          exit 0 
-
-      # 追加：デバッグ用ステップ（ジョブの最後に追加）
-      - name: Debug TF_PLAN_EXITCODE output from previous step
-        run: |
-          # ここで ${{ steps.plan.outputs.exitcode }} がどう見えるか確認
-          echo "Debug (Read back from GA Output): ${{ steps.plan.outputs.exitcode }}"
-      # 追加：デバッグ用ステップ
-      - name: Debug TF_PLAN_EXITCODE output
-        run: |
-          echo "Debug Output: ${{ steps.plan.outputs.exitcode }}"
       - name: Slack Notify
         uses: slackapi/slack-github-action@v1.26.0
         with:
@@ -120,9 +99,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v3
       - name: Setup terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
           terraform_wrapper: false
